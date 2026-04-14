@@ -1,0 +1,6 @@
+@RealDougAPI_HostAddress = http://localhost:5048
+
+GET {{RealDougAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
