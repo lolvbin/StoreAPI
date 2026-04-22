@@ -35,10 +35,19 @@ A aplicação foi construída com foco em boas práticas de desenvolvimento, inc
   "produtosIds": [1, 2]
 }
 ```
+## Arquitetura
+
+O projeto foi estruturado utilizando separação de responsabilidades em camadas:
+
+- Controllers: responsáveis pelas requisições HTTP
+- Services: responsáveis pelas regras de negócio
+- Contracts (Interfaces): definição de contratos entre as camadas
+- DTOs: utilizados para entrada de dados
+
+Foi utilizada injeção de dependência para desacoplar as camadas, tornando o código mais organizado, testável e próximo de aplicações reais.
 
 ## Melhorias futuras
 
 - Integração com banco de dados (Entity Framework)
-- Implementação de camada de serviços
 - Validações mais robustas
 - Autenticação e autorização
