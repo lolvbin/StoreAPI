@@ -1,6 +1,6 @@
 ﻿using RealDougAPI.Enums;
 
-namespace RealDougAPI.Models
+namespace RealDougAPI.DTO
 {
     public class CriarPedidosDTO
     {
