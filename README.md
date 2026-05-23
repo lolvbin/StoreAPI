@@ -103,16 +103,3 @@ dotnet run
 A API estará disponível localmente. Você pode acessar a interface do **OpenAPI / Swagger** através do navegador para testar os endpoints (geralmente em `http://localhost:5xxx/openapi` ou conforme configurado no console de inicialização).
 
 ```
-
----
-
-### Como atualizar no GitHub rapidinho:
-1. Abra o arquivo `README.md` no seu VS Code.
-2. Apague tudo o que está lá, cole o texto acima e salve.
-3. No terminal, faça o commit dessa atualização:
-   ```bash
-   git add README.md
-   git commit -m "docs: atualiza README com informações sobre DTOs e FluentValidation"
-   git push
-
-```
