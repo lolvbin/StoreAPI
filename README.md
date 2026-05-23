@@ -1,79 +1,118 @@
-# API de Pedidos e Produtos
+```markdown
+# StoreAPI 🛒
 
-API REST desenvolvida em .NET com o objetivo de simular um sistema de gerenciamento de pedidos e produtos.
+Uma Web API robusta e escalável desenvolvida em **.NET 10** para gerenciamento de uma loja eletrônica, cobrindo o fluxo de produtos e pedidos. 
 
-O projeto permite o cadastro, consulta, atualização e remoção de produtos, além da criação de pedidos vinculados a produtos previamente cadastrados.
+O projeto foi construído focando em boas práticas de arquitetura de software, separação de responsabilidades e segurança na validação de dados.
 
-A aplicação foi construída com foco em boas práticas de desenvolvimento backend, incluindo uso de DTOs, separação de responsabilidades em camadas (Controllers, Services e Contracts) e simulação de relacionamento entre entidades.
+---
 
-## Tecnologias
+## 🚀 Evolução e Práticas Recentes
 
-- .NET (ASP.NET Core Web API)
-- C#
-- LINQ
-- Injeção de Dependência
-- Postman (testes de API)
+O projeto passou por uma grande refatoração arquitetural para adotar padrões exigidos pelo mercado de desenvolvimento de software moderno:
 
-## Funcionalidades
+* **Data Transfer Objects (DTOs):** Implementados para desacoplar as entidades de domínio (`Produto`, `Pedido`) da camada de apresentação (Controllers). Isso protege a API contra vulnerabilidades como *Mass Assignment* e expõe apenas os dados necessários para cada operação.
+* **FluentValidation:** Centralização de todas as regras de validação de entrada através de validadores fortemente tipados. A validação foi integrada nativamente ao pipeline do ASP.NET Core, tratando automaticamente erros de requisições malformadas.
+* **Tratamento de Exceções & Respostas:** Introdução de padrões de respostas com estruturas genéricas (`APIResponse<T>`) e melhoria no fluxo de erros das camadas de serviço.
 
-- CRUD completo de produtos
-- Criação e listagem de pedidos
-- Associação de pedidos com múltiplos produtos
-- Uso de DTO para entrada de dados
-- Validação básica de dados
+---
 
-## Endpoints
+## 🛠️ Tecnologias e Bibliotecas Utilizadas
 
-### Produtos
-- GET /api/produtos
-- GET /api/produtos/{id}
-- POST /api/produtos
-- PUT /api/produtos/{id}
-- DELETE /api/produtos/{id}
+* **Plataforma:** .NET 10 (C# 14)
+* **Framework Principal:** ASP.NET Core Web API
+* **Validação:** [FluentValidation](https://fluentvalidation.net/) & `FluentValidation.AspNetCore`
+* **Documentação:** OpenAPI (Swagger)
 
-### Pedidos
-- GET /api/pedidos
-- POST /api/pedidos
+---
 
-## Exemplo de criação de pedido
+## 🏗️ Arquitetura do Projeto
 
-```json
-{
-  "status": "Pendente",
-  "produtosIds": [1, 2]
-}
+A estrutura de pastas foi organizada para respeitar o princípio de responsabilidade única:
+
+```text
+├── Contracts/          # Interfaces (Contratos) dos Serviços
+├── Controllers/        # Endpoints da API (HTTP Requests/Responses)
+├── DTOs/               # Objetos de Transferência de Dados (Inputs da API)
+├── Enums/              # Enumeradores do sistema (Status, TipoUsuario)
+├── Models/             # Entidades de Domínio da Aplicação
+├── Responses/          # Modelos globais de resposta HTTP
+├── Services/           # Camada de Regras de Negócio e Lógica de Serviços
+└── Validators/         # Regras de validação escritas em FluentValidation
+
 ```
 
-## Arquitetura
+---
 
-O projeto foi refatorado para uma arquitetura em camadas, aplicando boas práticas de desenvolvimento backend:
+## 🛑 Regras de Negócio Validadas
 
-- **Controllers**: responsáveis por lidar com as requisições HTTP
-- **Services**: responsáveis pelas regras de negócio da aplicação
-- **Contracts (Interfaces)**: definem contratos entre as camadas, promovendo desacoplamento
-- **DTOs**: utilizados para entrada de dados de forma controlada
+Graças à implementação do `FluentValidation`, a API barra requisições inválidas antes mesmo que elas cheguem aos serviços. Algumas das regras aplicadas:
 
-A aplicação utiliza **injeção de dependência** para conectar as camadas, tornando o código mais organizado, testável e escalável.
+* **Produtos:**
+* Nome obrigatório com tamanho mínimo de 3 caracteres.
+* Preço obrigatoriamente superior a R$ 0,00.
+* O estoque não pode ser negativo (permitindo `0` para produtos esgotados) e possui um limite máximo de 99 unidades por lote de atualização.
 
-## Evolução do Projeto
 
-O projeto iniciou como uma API simples utilizando armazenamento em memória e evoluiu para uma arquitetura em camadas, com separação de responsabilidades e uso de injeção de dependência, tornando-o mais próximo de aplicações reais utilizadas no mercado.
+* **Pedidos:**
+* Obrigatório conter pelo menos um ID de produto válido na lista.
+* Todos os IDs de produtos informados devem ser maiores que zero.
+* Data do pedido não pode ser uma data futura.
 
-## Atualizações Recentes
 
-Nesta versão, o projeto passou por uma refatoração estrutural com foco em organização e boas práticas:
 
-- Implementação de arquitetura em camadas (Controller → Service → Contracts)
-- Criação de interfaces para abstração das regras de negócio
-- Uso de injeção de dependência para desacoplamento entre componentes
-- Refatoração dos controllers, tornando-os mais simples e focados
-- Remoção de dependências diretas entre controllers e lógica de negócio
+---
 
-Essas mudanças tornam o projeto mais próximo de aplicações reais utilizadas no mercado.
+## 🏁 Como Executar o Projeto
 
-## Próximos Passos
+### Pré-requisitos
 
-- Integração com banco de dados utilizando Entity Framework
-- Implementação de persistência de dados com DbContext
-- Evolução das regras de negócio e validações
-- Possível implementação de autenticação e autorização
+* [.NET 10 SDK](https://dotnet.microsoft.com/download) instalado.
+
+### Passo a Passo
+
+1. Clone o repositório:
+```bash
+git clone [https://github.com/lolvbin/StoreAPI.git](https://github.com/lolvbin/StoreAPI.git)
+
+```
+
+
+2. Navegue até a pasta do projeto:
+```bash
+cd StoreAPI
+
+```
+
+
+3. Restaure as dependências do NuGet:
+```bash
+dotnet restore
+
+```
+
+
+4. Execute a aplicação:
+```bash
+dotnet run
+
+```
+
+
+
+A API estará disponível localmente. Você pode acessar a interface do **OpenAPI / Swagger** através do navegador para testar os endpoints (geralmente em `http://localhost:5xxx/openapi` ou conforme configurado no console de inicialização).
+
+```
+
+---
+
+### Como atualizar no GitHub rapidinho:
+1. Abra o arquivo `README.md` no seu VS Code.
+2. Apague tudo o que está lá, cole o texto acima e salve.
+3. No terminal, faça o commit dessa atualização:
+   ```bash
+   git add README.md
+   git commit -m "docs: atualiza README com informações sobre DTOs e FluentValidation"
+   git push
+
+```
