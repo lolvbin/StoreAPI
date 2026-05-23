@@ -1,5 +1,6 @@
 ﻿using RealDougAPI.Models;
 using RealDougAPI.Contracts;
+using RealDougAPI.DTO;
 
 namespace RealDougAPI.Services
 {
@@ -17,22 +18,30 @@ namespace RealDougAPI.Services
             return produtos.FirstOrDefault(p => p.Id == id);
         }
 
-        public Produto Create(Produto produto)
+        public Produto Create(CriarProdutoDTO dto)
         {
-            produto.Id = produtos.Count + 1;
+            var produto = new Produto
+            {
+            Id = produtos.Count + 1, // Implementar Guid futuramente 👀
+            Name = dto.Name,
+            Price = dto.Price,
+            Stock = dto.Stock
+            };
+
             produtos.Add(produto);
             return produto;
         }
 
-        public bool Update(int id, Produto produtoAtualizado)
+        public bool Update(int id, AtualizarProdutoDTO dto)
         {
             var produto = produtos.FirstOrDefault(p => p.Id == id);
 
             if (produto == null)
                 return false;
 
-            produto.Name = produtoAtualizado.Name;
-            produto.Price = produtoAtualizado.Price;
+            produto.Name = dto.Name;
+            produto.Price = dto.Price;
+            produto.Stock = dto.Stock;
 
             return true;
         }
@@ -42,8 +51,10 @@ namespace RealDougAPI.Services
             var produto = produtos.FirstOrDefault(p => p.Id == id);
 
             if (produto == null)
+            {
                 return false;
-
+            }
+            
             produtos.Remove(produto);
             return true;
         }
