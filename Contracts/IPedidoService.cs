@@ -8,6 +8,6 @@ namespace RealDougAPI.Contracts
     {
         List<Pedido> GetAll();
         Pedido GetById(int id);
-        Pedido Create(CriarPedidosDTO pedidoDTO);
+        Pedido Create(CriarPedidoDTO pedidoDTO);
     }
 }

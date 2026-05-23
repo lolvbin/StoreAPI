@@ -1,4 +1,6 @@
 ﻿using RealDougAPI.Enums;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace RealDougAPI.Models;
 public class Pedido

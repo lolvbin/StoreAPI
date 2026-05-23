@@ -2,7 +2,7 @@
 
 namespace RealDougAPI.DTO
 {
-    public class CriarPedidosDTO
+    public class CriarPedidoDTO
     {
         public List<int> ProdutosIds { get; set; }
         public StatusPedido Status { get; set; }

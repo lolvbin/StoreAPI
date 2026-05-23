@@ -50,7 +50,7 @@ namespace RealDougAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] CriarPedidosDTO pedidoDTO)
+        public ActionResult Post([FromBody] CriarPedidoDTO pedidoDTO)
         {
             var pedido = _pedidoService.Create(pedidoDTO);
 

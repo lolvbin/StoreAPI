@@ -27,7 +27,7 @@ namespace RealDougAPI.Services
             return pedidos.FirstOrDefault(p => p.Id == id);
         }
 
-        public Pedido Create(CriarPedidosDTO pedidoDTO)
+        public Pedido Create(CriarPedidoDTO pedidoDTO)
         {
             var produtosDoPedido = _produtoService.GetAll()
                 .Where(p => pedidoDTO.ProdutosIds.Contains(p.Id))
@@ -35,7 +35,7 @@ namespace RealDougAPI.Services
 
             if (!produtosDoPedido.Any())
             {
-                return null;
+                throw new Exception("Nenhum produto válido encontrado! Verifique os IDs e tente novamente.");
             }
 
             var pedido = new Pedido

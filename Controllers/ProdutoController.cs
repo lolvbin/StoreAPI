@@ -2,6 +2,7 @@
 using RealDougAPI.Contracts;
 using RealDougAPI.Models;
 using System.Collections.Immutable;
+using RealDougAPI.DTO;
 
 namespace RealDougAPI.Controllers
 {
@@ -47,18 +48,18 @@ namespace RealDougAPI.Controllers
 
         // POST api/<ProdutosController>
         [HttpPost]
-        public ActionResult Post([FromBody] Produto produto)
+        public ActionResult Post([FromBody] CriarProdutoDTO dto)
         {
-            var novoProduto = _produtoService.Create(produto);
+            var novoProduto = _produtoService.Create(dto);
 
             return CreatedAtAction(nameof(Get), new { id = novoProduto.Id }, novoProduto);
         }
 
         // PUT api/<ProdutosController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Produto produtoAtualizado)
+        public ActionResult Put(int id, [FromBody] AtualizarProdutoDTO dto)
         {
-            var atualizado = _produtoService.Update(id, produtoAtualizado);
+            var atualizado = _produtoService.Update(id, dto);
 
             if (!atualizado)
                 return NotFound(new { Message = $"Produto {id} não encontrado!" });
@@ -75,7 +76,7 @@ namespace RealDougAPI.Controllers
             if (!removido)
                 return NotFound(new { Message = $"Produto com ID {id} não encontrado!" });
 
-            return Ok(new { Message = "Produto removido com sucesso!" });
+            return Ok(new { Message = $"Produto com ID {id} removido com sucesso!" });
         }
     }
 }
