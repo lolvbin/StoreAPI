@@ -1,40 +1,48 @@
 ﻿using RealDougAPI.Models;
 using RealDougAPI.Contracts;
 using RealDougAPI.DTO;
+using SQLitePCL;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RealDougAPI.Services
 {
     public class ProdutoService : IProdutoService
     {
-        private static List<Produto> produtos = new List<Produto>();
+        private AppDbContext _context;
 
-        public List<Produto> GetAll()
+        public ProdutoService(AppDbContext _context)
         {
-            return produtos;
+            this._context = _context;
         }
 
-        public Produto GetById(int id)
+        public List<Produto> Get()
         {
-            return produtos.FirstOrDefault(p => p.Id == id);
+            return _context.Produtos.ToList();
+        }
+
+        public Produto GetById(Guid id)
+        {
+            return _context.Produtos.FirstOrDefault(p => p.Id == id);
         }
 
         public Produto Create(CriarProdutoDTO dto)
         {
             var produto = new Produto
             {
-            Id = produtos.Count + 1, // Implementar Guid futuramente 👀
             Name = dto.Name,
             Price = dto.Price,
             Stock = dto.Stock
             };
 
-            produtos.Add(produto);
+            _context.Produtos.Add(produto);
+            _context.SaveChanges();
             return produto;
         }
 
-        public bool Update(int id, AtualizarProdutoDTO dto)
+        public bool Update(Guid id, AtualizarProdutoDTO dto)
         {
-            var produto = produtos.FirstOrDefault(p => p.Id == id);
+            var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
             if (produto == null)
                 return false;
@@ -43,19 +51,22 @@ namespace RealDougAPI.Services
             produto.Price = dto.Price;
             produto.Stock = dto.Stock;
 
+            _context.Produtos.Update(produto);
+            _context.SaveChanges();
             return true;
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id) 
         {
-            var produto = produtos.FirstOrDefault(p => p.Id == id);
+            var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
             if (produto == null)
             {
                 return false;
             }
             
-            produtos.Remove(produto);
+            _context.Produtos.Remove(produto);
+            _context.SaveChanges();
             return true;
         }
     }

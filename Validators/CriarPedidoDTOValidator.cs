@@ -12,7 +12,7 @@ public class CriarPedidoDTOValidator : AbstractValidator<CriarPedidoDTO>
     {
         RuleFor(x => x.ProdutosIds).
         NotEmpty().WithMessage("O Id dos produtos não pode ser vazio!")
-        .Must(ids => ids.All(id => id > 0)).WithMessage("Todos os Ids dos produtos devem ser maiores que zero!");
+        .Must(ids => ids.All(id => id != Guid.Empty)).WithMessage("Todos os Ids dos produtos devem ser maiores que zero!");
 
         RuleFor(x => x.Status).
         NotEmpty().WithMessage("O status do pedido não pode ser vazio");

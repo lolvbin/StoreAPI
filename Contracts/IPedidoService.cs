@@ -6,8 +6,8 @@ namespace RealDougAPI.Contracts
 {
     public interface IPedidoService
     {
-        List<Pedido> GetAll();
-        Pedido GetById(int id);
+        List<Pedido> Get();
+        Pedido GetById(Guid id);
         Pedido Create(CriarPedidoDTO pedidoDTO);
     }
 }

@@ -1,4 +1,5 @@
-﻿using RealDougAPI.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using RealDougAPI.Contracts;
 using RealDougAPI.Controllers;
 using RealDougAPI.DTO;
 using RealDougAPI.Models;
@@ -8,28 +9,28 @@ namespace RealDougAPI.Services
     public class PedidoService : IPedidoService
     {
 
+        private AppDbContext _context;
         private readonly IProdutoService _produtoService;
 
-        public PedidoService(IProdutoService produtoService)
+        public PedidoService(IProdutoService produtoService, AppDbContext _context)
         {
             _produtoService = produtoService;
+            this._context = _context;
         }
 
-        private static List<Pedido> pedidos = new List<Pedido>();
-
-        public List<Pedido> GetAll()
+        public List<Pedido> Get()
         {
-            return pedidos;
+            return _context.Pedidos.Include(p => p.Produtos).ToList();
         }
 
-        public Pedido GetById(int id)
+        public Pedido GetById(Guid id)
         {
-            return pedidos.FirstOrDefault(p => p.Id == id);
+            return _context.Pedidos.Include(p => p.Produtos).FirstOrDefault(p => p.Id == id);
         }
 
         public Pedido Create(CriarPedidoDTO pedidoDTO)
         {
-            var produtosDoPedido = _produtoService.GetAll()
+            var produtosDoPedido = _produtoService.Get()
                 .Where(p => pedidoDTO.ProdutosIds.Contains(p.Id))
                 .ToList();
 
@@ -40,13 +41,13 @@ namespace RealDougAPI.Services
 
             var pedido = new Pedido
             {
-                Id = pedidos.Count + 1,
                 Data = DateTime.Now,
                 Status = pedidoDTO.Status,
                 Produtos = produtosDoPedido
             };
 
-            pedidos.Add(pedido);
+            _context.Pedidos.Add(pedido);
+            _context.SaveChanges();
 
             return pedido;
 
