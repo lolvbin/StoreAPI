@@ -5,7 +5,7 @@ using FluentValidation.Results;
 namespace RealDougAPI.Models;
 public class Pedido
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime Data { get; set; }
     public List<Produto> Produtos { get; set; }
     public StatusPedido Status { get; set; }

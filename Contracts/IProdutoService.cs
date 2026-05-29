@@ -5,11 +5,11 @@ namespace RealDougAPI.Contracts
 {
     public interface IProdutoService
     {
-        List<Produto> GetAll();
-        Produto GetById(int id);
+        List<Produto> Get();
+        Produto GetById(Guid id);
         Produto Create(CriarProdutoDTO dto);
-        bool Update(int id, AtualizarProdutoDTO dto);
-        bool Delete(int id);
+        bool Update(Guid id, AtualizarProdutoDTO dto);
+        bool Delete(Guid id);
 
 
     }

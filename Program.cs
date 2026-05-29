@@ -6,6 +6,7 @@ using FluentValidation.AspNetCore;
 using RealDougAPI.Models;
 using RealDougAPI;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,10 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CriarProdutoDTOValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<AtualizarProdutoDTOValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CriarPedidoDTOValidator>();
+
+// Adiciona o contexto do banco de dados e configura para usar o SQLite, pegando a string de conexão do appsettings.json.j
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

@@ -23,7 +23,7 @@ namespace RealDougAPI.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var produtos = _produtoService.GetAll();
+            var produtos = _produtoService.Get();
 
             if (!produtos.Any())
                 return NotFound(new { Message = "Nenhum produto encontrado!" });
@@ -31,11 +31,11 @@ namespace RealDougAPI.Controllers
             return Ok(produtos);
         }
 
-        // GET api/<ProdutosController>/5
+        // GETBYID api/<ProdutosController>/3f2504e0-2f89-41d3-9a0c-0305d82c5b11
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult GetById(Guid id)
         {
-            if (id <= 0)
+            if (id == Guid.Empty)
                 return BadRequest(new { Message = "ID inválido!" });
 
             var produto = _produtoService.GetById(id);
@@ -57,7 +57,7 @@ namespace RealDougAPI.Controllers
 
         // PUT api/<ProdutosController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] AtualizarProdutoDTO dto)
+        public ActionResult Put(Guid id, [FromBody] AtualizarProdutoDTO dto)
         {
             var atualizado = _produtoService.Update(id, dto);
 
@@ -69,7 +69,7 @@ namespace RealDougAPI.Controllers
 
         // DELETE api/<ProdutosController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
             var removido = _produtoService.Delete(id);
 

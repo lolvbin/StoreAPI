@@ -22,7 +22,7 @@ namespace RealDougAPI.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            var pedidos = _pedidoService.GetAll();
+            var pedidos = _pedidoService.Get();
 
             if (pedidos.Any())
             {
@@ -33,11 +33,11 @@ namespace RealDougAPI.Controllers
 
         // GET api/<PedidosController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult GetById(Guid id)
         {
-            if (id <= 0)
+            if (id == Guid.Empty)
             {
-                return BadRequest(new { Message = "ID invalido! Deve ser maior que zero." });
+                return BadRequest(new { Message = "ID invalido!" });
             }
 
             var pedidoExiste = _pedidoService.GetById(id);
