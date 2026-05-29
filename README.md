@@ -126,12 +126,3 @@ dotnet run
 A API estará disponível localmente. Você pode acessar a interface do **OpenAPI / Swagger** através do navegador para realizar os testes de requisições (`POST`, `GET`, etc) nos endpoints através do endereço informado no terminal (ex: `http://localhost:5xxx/openapi`).
 
 ```
-
-### O que mudou nessa versão?
-1. **Adicionados termos de mercado:** Palavras como *Eager Loading*, *ORM*, *Persistência Relacional* e *Guid* dão um tom muito mais sênior e acadêmico (o que é ótimo para o seu professor).
-2. **Nova Seção de Banco de Dados:** Explicita que o projeto usa o SQLite e adiciona o passo fundamental de rodar o `dotnet ef database update` antes do `dotnet run`, evitando que outras pessoas tomem erro de banco inexistente ao baixarem seu projeto.
-3. **Ajuste de Tipos:** Atualizada a menção das regras de negócio de IDs para refletirem os `Guids`.
-
-Esse arquivo valoriza demais o trabalho duro que você teve reestruturando o backend!
-
-```
