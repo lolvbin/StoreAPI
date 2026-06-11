@@ -1,82 +1,80 @@
-```markdown
 # StoreAPI 🛒
 
-Uma Web API robusta e escalável desenvolvida em **.NET 10** para gerenciamento de uma loja eletrônica, cobrindo o fluxo completo de cadastro de produtos e processamento de pedidos. 
+Uma Web API robusta, escalável e segura desenvolvida em **.NET 10** para gerenciamento de uma plataforma de e-commerce, cobrindo o fluxo completo de autenticação, cadastro de produtos, gerenciamento de estoques e processamento de pedidos.
 
-O projeto foi construído focando em padrões arquiteturais exigidos pelo mercado de desenvolvimento de software moderno, separação estrita de responsabilidades, persistência relacional e segurança na validação de dados.
-
----
-
-## 🚀 Evolução e Práticas Recentes
-
-O projeto passou por grandes refatorações estruturais para adotar práticas recomendadas para engenharia de software backend:
-
-* **Persistência Relacional (EF Core):** Substituição do armazenamento temporário em memória por um banco de dados **SQLite** real. Toda a camada de dados é gerenciada via **Entity Framework Core**, utilizando o padrão *Unit of Work* para consolidação de operações de escrita através do `SaveChanges()`.
-* **Mapeamento de Relacionamentos (Eager Loading):** Implementação de carregamento imediato via `.Include()` para unificar as consultas de pedidos aos seus respectivos produtos no banco de dados, evitando o comportamento de dados nulos (*Lazy Loading*).
-* **Identificadores Globais Únicos (Guid):** Transição de chaves primárias sequenciais (`int`) para chaves baseadas em `Guid`, mitigando vulnerabilidades de ID harvesting e preparando a API para cenários de concorrência e alta escalabilidade.
-* **Data Transfer Objects (DTOs):** Implementados para desacoplar as entidades de domínio (`Produto`, `Pedido`) da camada de apresentação (Controllers), protegendo a API contra *Mass Assignment* e otimizando o payload trafegado.
-* **FluentValidation:** Centralização de todas as regras de validação de entrada através de validadores fortemente tipados inseridos nativamente no pipeline de requisições do ASP.NET Core.
-* **Injeção de Dependência:** Utilização estrita de inversão de controle via interfaces (contratos de serviços) estruturados com construtores únicos não ambíguos.
+O projeto foi projetado e concluído seguindo rigorosamente os padrões de mercado exigidos pela engenharia de software backend moderno. Ele destaca a separação estrita de responsabilidades, arquitetura limpa, persistência relacional e um ecossistema de segurança baseado em tokens criptográficos e controle de acesso contextual.
 
 ---
 
-## 🛠️ Tecnologias e Bibliotecas Utilizadas
+## 🏗️ Arquitetura e Estrutura do Projeto
 
-* **Plataforma:** .NET 10 (C# 14)
-* **Framework Principal:** ASP.NET Core Web API
-* **ORM / Acesso a Dados:** Entity Framework Core (`Microsoft.EntityFrameworkCore.Sqlite`)
-* **Banco de Dados:** SQLite
-* **Ferramental de Banco:** Entity Framework Core Tools (`Microsoft.EntityFrameworkCore.Tools`)
-* **Validação:** [FluentValidation](https://fluentvalidation.net/) & `FluentValidation.AspNetCore`
-* **Documentação:** OpenAPI (Swagger)
-
----
-
-## 🏗️ Arquitetura do Projeto
-
-A estrutura de pastas foi organizada para respeitar o princípio de responsabilidade única (SRP) e o isolamento de camadas:
+A solução foi estruturada para respeitar o Princípio de Responsabilidade Única (SRP) e o isolamento de camadas, garantindo manutenibilidade e alta testabilidade do código:
 
 ```text
-├── Contracts/          # Interfaces (Contratos) de isolamento dos Serviços
-├── Controllers/        # Endpoints da API (HTTP Requests/Responses)
-├── Data/               # Contexto de Banco de Dados (AppDbContext) e Configurações do EF Core
-├── DTOs/               # Objetos de Transferência de Dados (Input/Output da API)
-├── Enums/              # Enumeradores do sistema (Status do Pedido, etc)
-├── Migrations/         # Arquivos de histórico e versionamento do Banco de Dados
-├── Models/             # Entidades de Domínio da Aplicação (Mapeadas para o DB)
-├── Responses/          # Modelos globais e genéricos de resposta HTTP
-├── Services/           # Camada de Regras de Negócio (Lógica de Serviços)
-└── Validators/         # Regras de validação escritas em FluentValidation
+├── Contracts/          # Interfaces (Contratos) para inversão de controle e isolamento dos Serviços
+├── Controllers/        # Endpoints HTTP da API (Tratamento de Requests/Responses)
+├── Data/               # Camada de Acesso a Dados (Contexto do EF Core e mapeamentos)
+├── DTOs/               # Data Transfer Objects (Input/Output desacoplados das entidades de domínio)
+├── Enums/              # Enumeradores globais de negócio (Tipos de Usuário, Status do Pedido)
+├── Migrations/         # Versionamento e histórico estrutural do Banco de Dados
+├── Models/             # Entidades de Domínio da aplicação mapeadas para tabelas relacionais
+├── Responses/          # Modelos genéricos globais para unificação de retornos HTTP
+├── Services/           # Camada de Regras de Negócio e Serviços da aplicação
+└── Validators/         # Middleware de validação avançada com regras em FluentValidation
 
 ```
 
 ---
 
-## 🛑 Regras de Negócio Validadas
+## 🛠️ Tecnologias, Frameworks e Bibliotecas
 
-Graças à integração do `FluentValidation`, a API intercepta e barra requisições inválidas na borda da aplicação, retornando logs estruturados antes mesmo de onerar a camada de serviços.
-
-* **Produtos:**
-* Nome obrigatório com tamanho mínimo de 3 caracteres.
-* Preço obrigatoriamente superior a R$ 0,00.
-* O estoque não pode ser negativo (permitindo `0` para produtos esgotados) e possui um limite máximo de 99 unidades por lote de atualização.
-
-
-* **Pedidos:**
-* Obrigatório conter pelo menos um ID de produto válido na lista.
-* Todos os IDs de produtos informados devem ser identificadores estruturalmente válidos (`Guid`).
-* Data do pedido gerada de forma automatizada no servidor (`DateTime.Now`), prevenindo adulterações temporais ou datas futuras.
-
-
+* **Plataforma Core:** .NET 10 (C# 14)
+* **Framework Web:** ASP.NET Core Web API
+* **Acesso a Dados e ORM:** Entity Framework Core (`Microsoft.EntityFrameworkCore.Sqlite`)
+* **Banco de Dados:** SQLite (Armazenamento persistente real)
+* **Autenticação e Segurança:** JWT Bearer Token (`Microsoft.AspNetCore.Authentication.JwtBearer`)
+* **Validação de Dados:** FluentValidation (`FluentValidation.AspNetCore`)
+* **Documentação Interativa:** OpenAPI / Swagger
 
 ---
 
-## 🏁 Como Executar o Projeto
+## ⚡ Práticas de Engenharia de Software Implementadas
+
+Ao longo da evolução do projeto, a API abandonou simulações acadêmicas em memória e foi completamente refatorada para adotar padrões de nível de produção:
+
+* **Segurança e Autenticação com JWT:** Fluxo de autenticação stateless onde a API emite tokens digitais criptografados no login, garantindo a integridade da sessão do usuário.
+* **Controle de Acesso Baseado em Funções (RBAC):** Proteção de rotas em nível de Controller por meio de permissões de perfis (`Admin`, `Vendedor`, `Cliente`). O pipeline valida contextualmente o crachá do usuário antes de dar acesso ao recurso através da injeção de `IHttpContextAccessor`.
+* **Persistência e Unit of Work com EF Core:** Substituição do armazenamento em memória por banco de dados relacional. Operações ACID consolidadas de forma atômica por meio de repositórios baseados no padrão Unit of Work com o `SaveChanges()`.
+* **Consultas Otimizadas (Eager Loading):** Mitigação de problemas de consultas fracionadas e dados nulos (Lazy Loading) através do uso explícito do método `.Include()` para unificar as buscas de pedidos e seus respectivos itens em um único payload de banco de dados.
+* **Chaves Globais Únicas (Guid):** Adoção de chaves primárias baseadas em `Guid` em substituição aos inteiros sequenciais automáticos (`int`), eliminando riscos de vulnerabilidades do tipo *ID Harvesting* (onde atacantes adivinham IDs sequenciais) e preparando a API para sistemas distribuídos de alta concorrência.
+* **Proteção contra Mass Assignment via DTOs:** Total isolamento das entidades de domínio (`Produto`, `Pedido`, `Usuario`). Os payloads de entrada e saída trafegam puramente através de DTOs específicos, blindando o estado interno do banco de dados.
+* **Validação em Borda com FluentValidation:** Centralização de regras de negócio fortemente tipadas que interceptam a requisição HTTP logo na entrada, impedindo que dados corrompidos ou mal formatados onerem as camadas de serviço da aplicação.
+* **Respostas Unificadas Baseadas em Generics (`APIResponse<T>`):** Padronização global de todas as respostas HTTP da API, envelopadas em uma estrutura previsível contendo indicadores de sucesso, mensagens descritivas de sistema e payloads tipados.
+
+---
+
+## 🛡️ Matriz de Permissões e Regras de Negócio
+
+### Controle de Acesso (RBAC)
+
+* **Público (Anonymous):** Leitura de produtos (`GET /api/produtos` e `GET /api/produtos/{id}`).
+* **Cliente:** Apenas lê produtos, efetua login e autocadastro. Possui bloqueio automático para endpoints gerenciais.
+* **Vendedor:** Acesso completo de leitura e escrita para o estoque de produtos (`POST`, `PUT`) e visualização geral de pedidos.
+* **Admin:** Poder irrestrito sobre a aplicação, incluindo a exclusão física de itens do estoque (`DELETE /api/produtos/{id}`) e o gerenciamento/cadastro de usuários com credenciais elevadas de gerência.
+
+### Regras de Validação Automatizadas
+
+* **Produtos:** Nome obrigatório (mínimo de 3 caracteres), preço estritamente superior a R$ 0,00 e estoque controlado entre 0 (esgotado) e o limite operacional de 99 unidades por lote de entrada.
+* **Pedidos:** Bloqueio de listas vazias, obrigatoriedade de identificadores estruturalmente válidos (`Guid`) e geração automatizada de carimbo de data/hora imutável diretamente no servidor (`DateTime.Now`), prevenindo fraudes ou agendamentos temporais maliciosos.
+
+---
+
+## 🏁 Como Executar e Testar a Aplicação
 
 ### Pré-requisitos
 
 * [.NET 10 SDK](https://dotnet.microsoft.com/download) instalado.
-* Ferramenta de CLI do Entity Framework instalada globalmente. Se não tiver, instale rodando:
+* Ferramenta de CLI do Entity Framework Core instalada globalmente:
 ```bash
 dotnet tool install --global dotnet-ef
 
@@ -84,38 +82,32 @@ dotnet tool install --global dotnet-ef
 
 
 
-### Passo a Passo
+### Passo a Passo para Configuração
 
 1. **Clone o repositório:**
 ```bash
-git clone [https://github.com/lolvbin/StoreAPI.git](https://github.com/lolvbin/StoreAPI.git)
-
-```
-
-
-2. **Navegue até a pasta do projeto:**
-```bash
+git clone https://github.com/lolvbin/StoreAPI.git
 cd StoreAPI
 
 ```
 
 
-3. **Restaure as dependências do NuGet:**
+2. **Restaure as dependências do ecossistema NuGet:**
 ```bash
 dotnet restore
 
 ```
 
 
-4. **Aplique as Migrations para criar o Banco de Dados local:**
-Este comando lerá o histórico da pasta `Migrations` e gerará automaticamente o arquivo físico do banco (`store.db`) na raiz do seu projeto:
+3. **Gere o Banco de Dados físico através das Migrations:**
+Este comando lerá o histórico estrutural do projeto e gerará automaticamente o banco de dados persistente (`store.db`) local:
 ```bash
 dotnet ef database update
 
 ```
 
 
-5. **Execute a aplicação:**
+4. **Execute o servidor da API:**
 ```bash
 dotnet run
 
@@ -123,6 +115,4 @@ dotnet run
 
 
 
-A API estará disponível localmente. Você pode acessar a interface do **OpenAPI / Swagger** através do navegador para realizar os testes de requisições (`POST`, `GET`, etc) nos endpoints através do endereço informado no terminal (ex: `http://localhost:5xxx/openapi`).
-
-```
+A aplicação subirá localmente. Você poderá acessar a interface interativa do **OpenAPI / Swagger** através do endereço indicado no seu terminal (ex: `http://localhost:5048/openapi`) para gerar tokens JWT, autenticar e testar as barreiras de proteção e regras de negócio da API.
