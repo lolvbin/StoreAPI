@@ -1,8 +1,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using RealDougAPI.Models;
+using StoreAPI.Models;
 
-namespace RealDougAPI;
+namespace StoreAPI;
 
 public class AppDbContext : DbContext
 {
@@ -12,4 +12,5 @@ public class AppDbContext : DbContext
 
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 }

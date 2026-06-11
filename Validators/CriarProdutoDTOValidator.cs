@@ -1,9 +1,9 @@
 using System;
 using FluentValidation;
 using FluentValidation.Validators;
-using RealDougAPI.DTO;
+using StoreAPI.DTO;
 
-namespace RealDougAPI;
+namespace StoreAPI;
 
 public class CriarProdutoDTOValidator : AbstractValidator<CriarProdutoDTO>
 {

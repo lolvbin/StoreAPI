@@ -1,6 +1,6 @@
-@RealDougAPI_HostAddress = http://localhost:5048
+@StoreAPI_HostAddress = http://localhost:5048
 
-GET {{RealDougAPI_HostAddress}}/weatherforecast/
+GET {{StoreAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

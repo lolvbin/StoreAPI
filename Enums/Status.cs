@@ -1,4 +1,4 @@
-﻿namespace RealDougAPI.Enums
+﻿namespace StoreAPI.Enums
 {
     public enum StatusPedido
     {

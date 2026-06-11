@@ -1,8 +1,8 @@
-﻿using RealDougAPI.DTO;
-using RealDougAPI.Enums;
-using RealDougAPI.Models;
+﻿using StoreAPI.DTO;
+using StoreAPI.Enums;
+using StoreAPI.Models;
 
-namespace RealDougAPI.Contracts
+namespace StoreAPI.Contracts
 {
     public interface IPedidoService
     {

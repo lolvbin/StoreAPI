@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RealDougAPI.Contracts;
-using RealDougAPI.Controllers;
-using RealDougAPI.DTO;
-using RealDougAPI.Models;
+using StoreAPI.Contracts;
+using StoreAPI.Controllers;
+using StoreAPI.DTO;
+using StoreAPI.Models;
 
-namespace RealDougAPI.Services
+namespace StoreAPI.Services
 {
     public class PedidoService : IPedidoService
     {

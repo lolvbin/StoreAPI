@@ -1,9 +1,9 @@
 using System;
 using FluentValidation;
 using FluentValidation.Results;
-using RealDougAPI.Models;
+using StoreAPI.Models;
 
-namespace RealDougAPI;
+namespace StoreAPI;
 
 public class PedidoValidator : AbstractValidator<Pedido>
 {

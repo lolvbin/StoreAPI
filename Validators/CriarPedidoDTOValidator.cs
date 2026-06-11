@@ -2,9 +2,9 @@ using System;
 using System.Data;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
-using RealDougAPI.DTO;
+using StoreAPI.DTO;
 
-namespace RealDougAPI;
+namespace StoreAPI;
 
 public class CriarPedidoDTOValidator : AbstractValidator<CriarPedidoDTO>
 {

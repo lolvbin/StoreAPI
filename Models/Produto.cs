@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace RealDougAPI.Models
+namespace StoreAPI.Models
 {
     public class Produto
     {

@@ -1,8 +1,8 @@
-﻿using RealDougAPI.Enums;
+﻿using StoreAPI.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace RealDougAPI.Models;
+namespace StoreAPI.Models;
 public class Pedido
 {
     public Guid Id { get; set; } = Guid.NewGuid();

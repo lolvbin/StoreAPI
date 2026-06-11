@@ -1,11 +1,11 @@
-﻿using RealDougAPI.Models;
-using RealDougAPI.Contracts;
-using RealDougAPI.DTO;
+﻿using StoreAPI.Models;
+using StoreAPI.Contracts;
+using StoreAPI.DTO;
 using SQLitePCL;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 
-namespace RealDougAPI.Services
+namespace StoreAPI.Services
 {
     public class ProdutoService : IProdutoService
     {

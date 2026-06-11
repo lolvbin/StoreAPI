@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace RealDougAPI.Migrations
+namespace StoreAPI.Migrations
 {
     /// <inheritdoc />
     public partial class CriacaoDoBanco : Migration

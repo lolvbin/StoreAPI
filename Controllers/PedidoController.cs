@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RealDougAPI.Contracts;
-using RealDougAPI.DTO;
-using RealDougAPI.Models;
-using RealDougAPI.Services;
+using StoreAPI.Contracts;
+using StoreAPI.DTO;
+using StoreAPI.Models;
+using StoreAPI.Responses;
+using Microsoft.AspNetCore.Authorization;
 
-namespace RealDougAPI.Controllers
+namespace StoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,43 +21,46 @@ namespace RealDougAPI.Controllers
 
         // GET: api/<PedidosController>
         [HttpGet]
+        [Authorize(Roles = "Admin, Vendedor")] // Este endpoint requer autenticação.
         public ActionResult<string> Get()
         {
             var pedidos = _pedidoService.Get();
 
             if (pedidos.Any())
             {
-                return Ok(pedidos);
+                return Ok(new object[] { new APIResponse<IEnumerable<Pedido>>(true, "Pedidos encontrados.", pedidos) });
             }
-            return NotFound(new { Message = $"Nenhum pedido foi encontrado!" });
+            return NotFound(new APIResponse<string>(false, $"Nenhum pedido foi encontrado!", null));
         }
 
         // GET api/<PedidosController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin, Vendedor")] // Este endpoint requer autenticação.
         public ActionResult GetById(Guid id)
         {
             if (id == Guid.Empty)
             {
-                return BadRequest(new { Message = "ID invalido!" });
+                return BadRequest(new APIResponse<string>(false, "ID invalido!", null));
             }
 
             var pedidoExiste = _pedidoService.GetById(id);
 
             if (pedidoExiste == null)
             {
-                return NotFound(new { Message = $"Pedido com id {id} não encontrado." });
+                return NotFound(new APIResponse<string>(false, $"Pedido com id {id} não encontrado.", null));
             }
-            return Ok(pedidoExiste);
+            return Ok(new APIResponse<Pedido>(true, "Pedido encontrado.", pedidoExiste));
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Vendedor")] // Este endpoint requer autenticação.
         public ActionResult Post([FromBody] CriarPedidoDTO pedidoDTO)
         {
             var pedido = _pedidoService.Create(pedidoDTO);
 
             if (pedido == null)
             {
-                return NotFound("Nenhum produto válido foi encontrado.");
+                return NotFound(new APIResponse<string>(false, "Nenhum produto válido foi encontrado.", null));
             }
 
             return CreatedAtAction(nameof(Get), new { id = pedido.Id }, pedido);

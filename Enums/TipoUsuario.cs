@@ -1,9 +1,9 @@
-﻿namespace RealDougAPI.Enums
+﻿namespace StoreAPI.Enums
 {
     public enum TipoUsuario
     {
-        Cliente = 'C',
-        Vendedor = 'V',
-        Admin = 'A'
+        Cliente = 1,
+        Vendedor = 2,
+        Admin = 3
     }
 }

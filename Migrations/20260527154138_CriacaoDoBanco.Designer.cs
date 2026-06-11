@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RealDougAPI;
+using StoreAPI;
 
 #nullable disable
 
-namespace RealDougAPI.Migrations
+namespace StoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260527154138_CriacaoDoBanco")]
@@ -20,7 +20,7 @@ namespace RealDougAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.8");
 
-            modelBuilder.Entity("RealDougAPI.Models.Pedido", b =>
+            modelBuilder.Entity("StoreAPI.Models.Pedido", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace RealDougAPI.Migrations
                     b.ToTable("Pedidos");
                 });
 
-            modelBuilder.Entity("RealDougAPI.Models.Produto", b =>
+            modelBuilder.Entity("StoreAPI.Models.Produto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,14 +63,14 @@ namespace RealDougAPI.Migrations
                     b.ToTable("Produtos");
                 });
 
-            modelBuilder.Entity("RealDougAPI.Models.Produto", b =>
+            modelBuilder.Entity("StoreAPI.Models.Produto", b =>
                 {
-                    b.HasOne("RealDougAPI.Models.Pedido", null)
+                    b.HasOne("StoreAPI.Models.Pedido", null)
                         .WithMany("Produtos")
                         .HasForeignKey("PedidoId");
                 });
 
-            modelBuilder.Entity("RealDougAPI.Models.Pedido", b =>
+            modelBuilder.Entity("StoreAPI.Models.Pedido", b =>
                 {
                     b.Navigation("Produtos");
                 });

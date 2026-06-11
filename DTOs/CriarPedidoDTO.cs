@@ -1,6 +1,6 @@
-﻿using RealDougAPI.Enums;
+﻿using StoreAPI.Enums;
 
-namespace RealDougAPI.DTO
+namespace StoreAPI.DTO
 {
     public class CriarPedidoDTO
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace RealDougAPI.DTO
+namespace StoreAPI.DTO
 {
     public class AtualizarProdutoDTO
 {

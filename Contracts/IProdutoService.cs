@@ -1,7 +1,7 @@
-﻿using RealDougAPI.Models;
-using RealDougAPI.DTO;
+﻿using StoreAPI.Models;
+using StoreAPI.DTO;
 
-namespace RealDougAPI.Contracts
+namespace StoreAPI.Contracts
 {
     public interface IProdutoService
     {
